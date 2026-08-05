@@ -1,11 +1,21 @@
-const Orchestrator = require("/home/dacner/pizzaflow/src/orchestrator/Orchestrator.js");
+const Orchestrator = require("../orchestrator/Orchestrator");
 
 const orchestrator = new Orchestrator();
 
-module.exports = async (ctx)=>{
+module.exports = async(ctx)=>{
 
-    const respuesta = await orchestrator.process(ctx);
+    const response = await orchestrator.process({
 
-    await ctx.reply(respuesta);
+        userId: ctx.from.id,
 
-}
+        username: ctx.from.username,
+
+        text: ctx.message.text,
+
+        chatId: ctx.chat.id
+
+    });
+
+    await ctx.reply(response);
+
+};
