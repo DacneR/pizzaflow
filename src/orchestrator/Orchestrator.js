@@ -1,33 +1,15 @@
+const { generateAIResponse } = require("/home/dacner/pizzaflow/src/service/aiService.js");
 
-const responses = {
-
-    hola: "¡Hola! Bienvenido a PizzaFlow 🍕",
-
-    menu:
-`🍕 Hawaiana
-🍕 Pepperoni
-🍕 Ranchera`,
-
-    precio:
-"Las pizzas comienzan desde $25.000",
-
-    promociones:
-"Hoy tenemos 2x1"
-
-};
-
-class Orchestrator{
-
-    async process(message){
-
-        const key = message.text.toLowerCase();
-
-        return responses[key] ??
-               "Todavía no entiendo esa solicitud.";
-
+class Orchestrator {
+  async process(message) {
+    try {
+      const response = await generateAIResponse(message.text);
+      return response;
+    } catch (error) {
+      console.error("Error al procesar en Orchestrator:", error);
+      return "Lo siento, tuve un problema interno al procesar tu mensaje. Intenta de nuevo en un momento.";
     }
-
+  }
 }
-
 
 module.exports = Orchestrator;
