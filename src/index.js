@@ -1,26 +1,19 @@
-const { Telegraf } = require('telegraf');
-const config = require('./config');
+const bot = require("./telegram/bot");
 
-const bot = new Telegraf(config.telegramToken);
+(async () => {
 
-bot.start((ctx) => {
-    ctx.reply('¡Bienvenido a PizzaFlow! 🍕\n\nSoy tu orquestador de IA. Estoy listo para ayudarte a gestionar tus pedidos y responder tus dudas.');
-});
+    console.log("Iniciando PizzaFlow...");
 
-bot.help((ctx) => ctx.reply('Envía /start para comenzar o simplemente háblame para interactuar con la IA.'));
+    try {
 
-bot.on('text', (ctx) => {
-    ctx.reply('He recibido tu mensaje. Próximamente estaré conectado con OpenAI para responderte de forma inteligente. 🤖');
-});
+        await bot.launch();
 
-bot.launch()
-    .then(() => {
-        console.log('🚀 PizzaFlow Bot iniciado correctamente');
-    })
-    .catch((err) => {
-        console.error('❌ Error al iniciar el bot:', err);
-    });
+        console.log("✅ Bot conectado correctamente");
 
-// Habilitar parada graciosa
-process.once('SIGINT', () => bot.stop('SIGINT'));
-process.once('SIGTERM', () => bot.stop('SIGTERM'));
+    } catch (err) {
+
+        console.error("❌ Error:", err);
+
+    }
+
+})();
